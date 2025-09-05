@@ -11,13 +11,13 @@ namespace WeaponPaints
 public class X_StickerSchema
 {
 	public required int? sticker_id;
-    public required int? x;
-    public required int? y;
-    public required int? rotation;
-    public required int? negativeRotation;
-    public required int? wear;
+    public required float? x;
+    public required float? y;
+    public required float? rotation;
+    public required float? negativeRotation;
+    public required float? wear;
     public required int? slot;
-    public required int? scale;
+    public required float? scale;
 }
 
     public class X_PlayerSkin

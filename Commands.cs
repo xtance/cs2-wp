@@ -46,16 +46,10 @@ public partial class WeaponPaints
 					AddTimer(0.15f, () => GivePlayerPin(player));
 				}
 
-				if (!string.IsNullOrEmpty(Localizer["wp_command_refresh_done"]))
-				{
-					player.Print(Localizer["wp_command_refresh_done"]);
-				}
+				player.PrintToChat(" >> Скины были обновлены.");
 				return;
 			}
-			if (!string.IsNullOrEmpty(Localizer["wp_command_cooldown"]))
-			{
-				player!.Print(Localizer["wp_command_cooldown"]);
-			}
+			player?.PrintToChat(" >> Пожалуйста, подождите.");
 		}
 		catch (Exception) { }
 	}

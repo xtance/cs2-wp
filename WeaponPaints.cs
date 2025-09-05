@@ -100,7 +100,7 @@ public partial class WeaponPaints : BasePlugin, IPluginConfig<WeaponPaintsConfig
 
 	public override void OnAllPluginsLoaded(bool hotReload)
 	{
-		AddCommand("wsx", "", OnCommandRefresh);
+		AddCommand("wp", "", OnCommandRefresh);
 		// try
 		// {
 		// 	MenuApi = MenuCapability.Get();
