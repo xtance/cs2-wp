@@ -16,7 +16,12 @@ namespace WeaponPaints
 		private void GivePlayerWeaponSkin(CCSPlayerController player, CBasePlayerWeapon weapon)
 		{
 			if (!Config.Additional.SkinEnabled) return;
-			if (!GPlayerWeaponsInfo.TryGetValue(player.Slot, out _)) return;
+			if (!GPlayerWeaponsInfo.TryGetValue(player.Slot, out _))
+			{
+				//Console.WriteLine($"[wp] no skin");
+				return;
+			}
+			//Console.WriteLine($"[wp] giving skins to {player.PlayerName}!!! ({Config.Additional.SkinEnabled})");
 
 			bool isKnife = weapon.DesignerName.Contains("knife") || weapon.DesignerName.Contains("bayonet");
 

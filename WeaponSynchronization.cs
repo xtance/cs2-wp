@@ -23,7 +23,8 @@ internal class WeaponSynchronization
 			{
 				Console.WriteLine($"[WP] Player steamid is null for {player?.Name}");
 				return;
-			};
+			}
+			;
 
 			var connection = await X_Hook.FetchSkins(player.SteamId ?? 0);
 			if (connection == null)
@@ -31,6 +32,7 @@ internal class WeaponSynchronization
 				Console.WriteLine($"[WP] X_Hook.FetchSkins is null for {player.SteamId}");
 				return;
 			}
+			Console.WriteLine($"[WP] X_Hook.FetchSkins is NOT null for {player.SteamId} !!!");
 
 			if (_config.Additional.KnifeEnabled)
 				GetKnifeFromDatabase(player, connection);
@@ -60,16 +62,16 @@ internal class WeaponSynchronization
 				return;
 
 			if (row.knife == null) return;
-			
+
 			// Get or create entries for the player’s slot
 			var playerKnives = WeaponPaints.GPlayersKnife.GetOrAdd(player.Slot, _ => new ConcurrentDictionary<CsTeam, string>());
 
-		
+
 			// Assign knife to both teams if weaponTeam is None
 			playerKnives[CsTeam.Terrorist] = row.knife;
 			playerKnives[CsTeam.CounterTerrorist] = row.knife;
-				
-			
+
+
 		}
 		catch (Exception ex)
 		{
@@ -132,7 +134,8 @@ internal class WeaponSynchronization
 		{
 			if (!_config.Additional.SkinEnabled || player == null || player?.SteamId == null)
 				return;
-				
+
+			Console.WriteLine($"[wp] GetWeaponPaintsFromDatabase | {response.playerSkins?.Count}");
 			if (response.playerSkins == null || response.playerSkins.Count <= 0) return;
 
 			var playerWeapons = WeaponPaints.GPlayerWeaponsInfo.GetOrAdd(player.Slot,
@@ -149,19 +152,19 @@ internal class WeaponSynchronization
 				string weaponNameTag = row.weapon_nametag ?? "";
 				bool weaponStatTrak = row.weapon_stattrak ?? false;
 				int weaponStatTrakCount = row.weapon_stattrak_count ?? 0;
-				
+
 				CsTeam weaponTeam = CsTeam.None;
-						
-				string[]? keyChainParts = row.weapon_keychain?.ToString().Split(';');
+
+				string[]? keyChainParts = row.weapon_keychain?.ToString()?.Split(';');
 
 				KeyChainInfo keyChainInfo = new KeyChainInfo();
 
-				if (keyChainParts!.Length == 5 &&
-				    uint.TryParse(keyChainParts[0], out uint keyChainId) &&
-				    float.TryParse(keyChainParts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out float keyChainOffsetX) &&
-				    float.TryParse(keyChainParts[2], NumberStyles.Float, CultureInfo.InvariantCulture, out float keyChainOffsetY) &&
-				    float.TryParse(keyChainParts[3], NumberStyles.Float, CultureInfo.InvariantCulture, out float keyChainOffsetZ) &&
-				    uint.TryParse(keyChainParts[4], out uint keyChainSeed))
+				if (keyChainParts?.Length == 5 &&
+					uint.TryParse(keyChainParts[0], out uint keyChainId) &&
+					float.TryParse(keyChainParts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out float keyChainOffsetX) &&
+					float.TryParse(keyChainParts[2], NumberStyles.Float, CultureInfo.InvariantCulture, out float keyChainOffsetY) &&
+					float.TryParse(keyChainParts[3], NumberStyles.Float, CultureInfo.InvariantCulture, out float keyChainOffsetZ) &&
+					uint.TryParse(keyChainParts[4], out uint keyChainSeed))
 				{
 					// Successfully parsed the values
 					keyChainInfo.Id = keyChainId;
@@ -192,41 +195,39 @@ internal class WeaponSynchronization
 					StatTrakCount = weaponStatTrakCount,
 				};
 
-				// Retrieve and parse sticker data (up to 5 slots)
-				for (int i = 0; i <= 4; i++)
+				// Retrieve and parse sticker data (up to 5 slots) 
+
+				if (row.weapon_stickers != null)
 				{
-					// Access the sticker data dynamically using reflection
-					string stickerColumn = $"weapon_sticker_{i}";
-					var stickerData = ((IDictionary<string, object>)row!)[stickerColumn]; // Safely cast row to a dictionary
-
-					if (string.IsNullOrEmpty(stickerData.ToString())) continue;
-						
-					var parts = stickerData.ToString()!.Split(';');
-
-					//"id;schema;x;y;wear;scale;rotation"
-					if (parts.Length != 7 ||
-					    !uint.TryParse(parts[0], out uint stickerId) ||
-					    !uint.TryParse(parts[1], out uint stickerSchema) ||
-					    !float.TryParse(parts[2], NumberStyles.Float, CultureInfo.InvariantCulture, out float stickerOffsetX) ||
-					    !float.TryParse(parts[3], NumberStyles.Float, CultureInfo.InvariantCulture, out float stickerOffsetY) ||
-					    !float.TryParse(parts[4], NumberStyles.Float, CultureInfo.InvariantCulture, out float stickerWear) ||
-					    !float.TryParse(parts[5], NumberStyles.Float, CultureInfo.InvariantCulture, out float stickerScale) ||
-					    !float.TryParse(parts[6], NumberStyles.Float, CultureInfo.InvariantCulture, out float stickerRotation)) continue;
-						
-					StickerInfo stickerInfo = new StickerInfo
+					foreach (var sticker in row.weapon_stickers)
 					{
-						Id = stickerId,
-						Schema = stickerSchema,
-						OffsetX = stickerOffsetX,
-						OffsetY = stickerOffsetY,
-						Wear = stickerWear,
-						Scale = stickerScale,
-						Rotation = stickerRotation
-					};
+						// Access the sticker data dynamically using reflection
+						//string stickerColumn = $"weapon_sticker_{i}";
+						//var stickerData = ((IDictionary<string, object>)row!)[stickerColumn]; // Safely cast row to a dictionary;
 
-					weaponInfo.Stickers.Add(stickerInfo);
+						var stickerId = sticker.sticker_id ?? 0;
+						var stickerSchema = 0;
+						var stickerOffsetX = sticker.x ?? 0;
+						var stickerOffsetY = sticker.y ?? 0;
+						var stickerWear = sticker.wear ?? 0;
+						var stickerScale = sticker.scale ?? 0;
+						var stickerRotation = sticker.rotation ?? 0;
+
+
+						StickerInfo stickerInfo = new StickerInfo
+						{
+							Id = (uint)stickerId,
+							Schema = (uint)stickerSchema,
+							OffsetX = stickerOffsetX,
+							OffsetY = stickerOffsetY,
+							Wear = stickerWear,
+							Scale = stickerScale,
+							Rotation = stickerRotation
+						};
+
+						weaponInfo.Stickers.Add(stickerInfo);
+					}
 				}
-					
 				if (weaponTeam == CsTeam.None)
 				{
 					// Get or create entries for both teams
@@ -244,6 +245,7 @@ internal class WeaponSynchronization
 					teamWeapons[weaponDefIndex] = weaponInfo;
 				}
 
+				// Console.WriteLine($"[wp] skin was added = {weaponInfo.Paint}, weaponDefIndex = {weaponDefIndex}");
 				// weaponInfos[weaponDefIndex] = weaponInfo;
 			}
 
@@ -251,7 +253,7 @@ internal class WeaponSynchronization
 		}
 		catch (Exception ex)
 		{
-			Utility.Log($"An error occurred in GetWeaponPaintsFromDatabase: {ex.Message}");
+			Utility.Log($"An error occurred in GetWeaponPaintsFromDatabase: {ex.Message}, {ex.StackTrace}, {ex.InnerException}");
 		}
 	}
 
@@ -349,7 +351,7 @@ internal class WeaponSynchronization
 	{
 		//
 	}
-	
+
 	internal async Task SyncGloveToDatabase(PlayerInfo player, ushort gloveDefIndex, CsTeam[] teams)
 	{
 		//
@@ -369,7 +371,7 @@ internal class WeaponSynchronization
 	{
 		//
 	}
-		
+
 	internal async Task SyncPinToDatabase(PlayerInfo player, ushort pin, CsTeam[] teams)
 	{
 		//
@@ -377,6 +379,6 @@ internal class WeaponSynchronization
 
 	internal async Task SyncStatTrakToDatabase(PlayerInfo player)
 	{
-	    //
+		//
 	}
 }
