@@ -32,11 +32,11 @@ namespace WeaponPaints
 	{
 		private static readonly HttpClient _httpClient = new();
 
-		public static async Task<X_Response?> FetchSkins(string steamid)
+		public static async Task<X_Response?> FetchSkins(int steamid)
 	    {
 			try
 			{
-				var url = "https://xpro.pw/api/ws/get";
+				var url = "https://xpro.pw/api/ws/plugin";
 		        var json = JsonSerializer.Serialize(new
 		        {
 		            steamid

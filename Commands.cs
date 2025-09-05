@@ -23,7 +23,7 @@ public partial class WeaponPaints
 			UserId = player.UserId,
 			Slot = player.Slot,
 			Index = (int)player.Index,
-			SteamId = player?.SteamID.ToString(),
+			SteamId = player.AuthorizedSteamID?.SteamId32,
 			Name = player?.PlayerName,
 			IpAddress = player?.IpAddress?.Split(":")[0]
 		};
@@ -207,7 +207,7 @@ public partial class WeaponPaints
 				UserId = player.UserId,
 				Slot = player.Slot,
 				Index = (int)player.Index,
-				SteamId = player.SteamID.ToString(),
+				SteamId = player.AuthorizedSteamID?.SteamId32,
 				Name = player.PlayerName,
 				IpAddress = player.IpAddress?.Split(":")[0]
 			};
@@ -339,7 +339,7 @@ public partial class WeaponPaints
 						UserId = p.UserId,
 						Slot = p.Slot,
 						Index = (int)p.Index,
-						SteamId = p.SteamID.ToString(),
+						SteamId = p.AuthorizedSteamID?.SteamId32,
 						Name = p.PlayerName,
 						IpAddress = p.IpAddress?.Split(":")[0]
 					};
@@ -446,7 +446,7 @@ public partial class WeaponPaints
 				UserId = player.UserId,
 				Slot = player.Slot,
 				Index = (int)player.Index,
-				SteamId = player.SteamID.ToString(),
+				SteamId = player.AuthorizedSteamID?.SteamId32,
 				Name = player.PlayerName,
 				IpAddress = player.IpAddress?.Split(":")[0]
 			};
@@ -569,7 +569,7 @@ public partial class WeaponPaints
 					UserId = player.UserId,
 					Slot = player.Slot,
 					Index = (int)player.Index,
-					SteamId = player.SteamID.ToString(),
+					SteamId = player.AuthorizedSteamID?.SteamId32,
 					Name = player.PlayerName,
 					IpAddress = player.IpAddress?.Split(":")[0]
 				};
@@ -695,7 +695,7 @@ public partial class WeaponPaints
 					UserId = player.UserId,
 					Slot = player.Slot,
 					Index = (int)player.Index,
-					SteamId = player.SteamID.ToString(),
+					SteamId = player.AuthorizedSteamID?.SteamId32,
 					Name = player.PlayerName,
 					IpAddress = player.IpAddress?.Split(":")[0]
 				};
@@ -737,7 +737,7 @@ public partial class WeaponPaints
 					UserId = player.UserId,
 					Slot = player.Slot,
 					Index = (int)player.Index,
-					SteamId = player.SteamID.ToString(),
+					SteamId = player.AuthorizedSteamID?.SteamId32,
 					Name = player.PlayerName,
 					IpAddress = player.IpAddress?.Split(":")[0]
 				};
@@ -830,7 +830,7 @@ public partial class WeaponPaints
 					UserId = player.UserId,
 					Slot = player.Slot,
 					Index = (int)player.Index,
-					SteamId = player.SteamID.ToString(),
+					SteamId = player.AuthorizedSteamID?.SteamId32,
 					Name = player.PlayerName,
 					IpAddress = player.IpAddress?.Split(":")[0]
 				};
@@ -872,7 +872,7 @@ public partial class WeaponPaints
 					UserId = player.UserId,
 					Slot = player.Slot,
 					Index = (int)player.Index,
-					SteamId = player.SteamID.ToString(),
+					SteamId = player.AuthorizedSteamID?.SteamId32,
 					Name = player.PlayerName,
 					IpAddress = player.IpAddress?.Split(":")[0]
 				};

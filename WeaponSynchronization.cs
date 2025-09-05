@@ -25,7 +25,7 @@ internal class WeaponSynchronization
 				return;
 			};
 
-			var connection = await X_Hook.FetchSkins(player.SteamId);
+			var connection = await X_Hook.FetchSkins(player.SteamId ?? 0);
 			if (connection == null)
 			{
 				Console.WriteLine($"[WP] X_Hook.FetchSkins is null for {player.SteamId}");
@@ -56,7 +56,7 @@ internal class WeaponSynchronization
 	{
 		try
 		{
-			if (!_config.Additional.KnifeEnabled || string.IsNullOrEmpty(player?.SteamId))
+			if (!_config.Additional.KnifeEnabled || player?.SteamId == null)
 				return;
 
 			if (row.knife == null) return;
@@ -81,7 +81,7 @@ internal class WeaponSynchronization
 	{
 		try
 		{
-			if (!_config.Additional.GloveEnabled || string.IsNullOrEmpty(player?.SteamId))
+			if (!_config.Additional.GloveEnabled || player?.SteamId == null)
 				return;
 
 			if (row.weapon_defindex_glove == null) return;
@@ -102,7 +102,7 @@ internal class WeaponSynchronization
 	{
 		try
 		{
-			if (!_config.Additional.AgentEnabled || string.IsNullOrEmpty(player?.SteamId))
+			if (!_config.Additional.AgentEnabled || player?.SteamId == null)
 				return;
 
 			// const string query = "SELECT `agent_ct`, `agent_t` FROM `wp_player_agents` WHERE `steamid` = @steamid";
@@ -130,7 +130,7 @@ internal class WeaponSynchronization
 	{
 		try
 		{
-			if (!_config.Additional.SkinEnabled || player == null || string.IsNullOrEmpty(player.SteamId))
+			if (!_config.Additional.SkinEnabled || player == null || player?.SteamId == null)
 				return;
 				
 			if (response.playerSkins == null || response.playerSkins.Count <= 0) return;
@@ -259,7 +259,7 @@ internal class WeaponSynchronization
 	{
 		// try
 		// {
-		// 	if (!_config.Additional.MusicEnabled || string.IsNullOrEmpty(player?.SteamId))
+		// 	if (!_config.Additional.MusicEnabled || player?.SteamId == null)
 		// 		return;
 
 		// 	const string query = "SELECT `music_id`, `weapon_team` FROM `wp_player_music` WHERE `steamid` = @steamid ORDER BY `weapon_team` ASC";
@@ -304,7 +304,7 @@ internal class WeaponSynchronization
 	{
 		// try
 		// {
-		// 	if (string.IsNullOrEmpty(player?.SteamId))
+		// 	if (player?.SteamId == null)
 		// 		return;
 
 		// 	const string query = "SELECT `id`, `weapon_team` FROM `wp_player_pins` WHERE `steamid` = @steamid ORDER BY `weapon_team` ASC";

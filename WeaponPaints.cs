@@ -50,7 +50,7 @@ public partial class WeaponPaints : BasePlugin, IPluginConfig<WeaponPaintsConfig
 					UserId = player.UserId,
 					Slot = player.Slot,
 					Index = (int)player.Index,
-					SteamId = player?.SteamID.ToString(),
+					SteamId = player.AuthorizedSteamID?.SteamId32,
 					Name = player?.PlayerName,
 					IpAddress = player?.IpAddress?.Split(":")[0]
 				};
