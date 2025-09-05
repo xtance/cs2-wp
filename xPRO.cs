@@ -28,6 +28,12 @@ namespace WeaponPaints
 		public List<X_PlayerSkin>? playerSkins;
 	}
 
+	public class X_RawResponse
+	{
+		public string? text;
+		public X_Response? data; 
+	}
+
 	public static class X_Hook
 	{
 		private static readonly HttpClient _httpClient = new();
@@ -47,11 +53,11 @@ namespace WeaponPaints
 		        response.EnsureSuccessStatusCode();
 
 		        string responseBody = await response.Content.ReadAsStringAsync();
-		        return JsonSerializer.Deserialize<X_Response>(responseBody);
+		        return JsonSerializer.Deserialize<X_RawResponse>(responseBody)?.data;
 			}
 			catch (Exception e)
 			{
-				return default;
+				return null;
 			}
 	    }
 	}
