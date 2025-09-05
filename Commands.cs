@@ -107,46 +107,46 @@ public partial class WeaponPaints
 
 	private void RegisterCommands()
 	{
-		_config.Additional.CommandStattrak.ForEach(c =>
-		{
-			AddCommand($"css_{c}", "Stattrak toggle", (player, info) =>
-			{
-				if (!Utility.IsPlayerValid(player)) return;
+		// _config.Additional.CommandStattrak.ForEach(c =>
+		// {
+		// 	AddCommand($"css_{c}", "Stattrak toggle", (player, info) =>
+		// 	{
+		// 		if (!Utility.IsPlayerValid(player)) return;
 
-				OnCommandStattrak(player, info);
-			});
-		});
+		// 		OnCommandStattrak(player, info);
+		// 	});
+		// });
 
-		_config.Additional.CommandSkin.ForEach(c =>
-		{
-			AddCommand($"css_{c}", "Skins info", (player, info) =>
-			{
-				if (!Utility.IsPlayerValid(player)) return;
-				OnCommandWS(player, info);
-			});
-		});
+		// _config.Additional.CommandSkin.ForEach(c =>
+		// {
+		// 	AddCommand($"css_{c}", "Skins info", (player, info) =>
+		// 	{
+		// 		if (!Utility.IsPlayerValid(player)) return;
+		// 		OnCommandWS(player, info);
+		// 	});
+		// });
 			
-		_config.Additional.CommandRefresh.ForEach(c =>
-		{
-			AddCommand($"css_{c}", "Skins refresh", (player, info) =>
-			{
-				if (!Utility.IsPlayerValid(player)) return;
-				OnCommandRefresh(player, info);
-			});
-		});
+		// _config.Additional.CommandRefresh.ForEach(c =>
+		// {
+		// 	AddCommand($"css_{c}", "Skins refresh", (player, info) =>
+		// 	{
+		// 		if (!Utility.IsPlayerValid(player)) return;
+		// 		OnCommandRefresh(player, info);
+		// 	});
+		// });
 
-		if (Config.Additional.CommandKillEnabled)
-		{
-			_config.Additional.CommandKill.ForEach(c =>
-			{
-				AddCommand($"css_{c}", "kill yourself", (player, _) =>
-				{
-					if (player == null || !Utility.IsPlayerValid(player) || player.PlayerPawn.Value == null || !player.PlayerPawn.IsValid) return;
+		// if (Config.Additional.CommandKillEnabled)
+		// {
+		// 	_config.Additional.CommandKill.ForEach(c =>
+		// 	{
+		// 		AddCommand($"css_{c}", "kill yourself", (player, _) =>
+		// 		{
+		// 			if (player == null || !Utility.IsPlayerValid(player) || player.PlayerPawn.Value == null || !player.PlayerPawn.IsValid) return;
 
-					player.PlayerPawn.Value.CommitSuicide(true, false);
-				});
-			});
-		}
+		// 			player.PlayerPawn.Value.CommitSuicide(true, false);
+		// 		});
+		// 	});
+		// }
 	}
 
 	private void OnCommandStattrak(CCSPlayerController? player, CommandInfo commandInfo)

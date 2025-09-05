@@ -3,7 +3,6 @@ using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
 using Microsoft.Extensions.Logging;
-using MySqlConnector;
 
 namespace WeaponPaints;
 
@@ -77,12 +76,12 @@ public partial class WeaponPaints : BasePlugin, IPluginConfig<WeaponPaintsConfig
 		Config = config;
 		_config = config;
 
-		if (config.DatabaseHost.Length < 1 || config.DatabaseName.Length < 1 || config.DatabaseUser.Length < 1)
-		{
-			Logger.LogError("You need to setup Database credentials in \"configs/plugins/WeaponPaints/WeaponPaints.json\"!");
-			Unload(false);
-			return;
-		}
+		// if (config.DatabaseHost.Length < 1 || config.DatabaseName.Length < 1 || config.DatabaseUser.Length < 1)
+		// {
+		// 	Logger.LogError("You need to setup Database credentials in \"configs/plugins/WeaponPaints/WeaponPaints.json\"!");
+		// 	Unload(false);
+		// 	return;
+		// }
 
 		if (!File.Exists(Path.GetDirectoryName(Path.GetDirectoryName(ModuleDirectory)) + "/gamedata/weaponpaints.json"))
 		{
@@ -90,19 +89,6 @@ public partial class WeaponPaints : BasePlugin, IPluginConfig<WeaponPaintsConfig
 			Unload(false);
 			return;
 		}
-		
-		var builder = new MySqlConnectionStringBuilder
-		{
-			Server = config.DatabaseHost,
-			UserID = config.DatabaseUser,
-			Password = config.DatabasePassword,
-			Database = config.DatabaseName,
-			Port = (uint)config.DatabasePort,
-			Pooling = true,
-			MaximumPoolSize = 640,
-		};
-
-		Database = new Database(builder.ConnectionString);
 
 		_ = Utility.CheckDatabaseTables();
 		_localizer = Localizer;
@@ -114,30 +100,31 @@ public partial class WeaponPaints : BasePlugin, IPluginConfig<WeaponPaintsConfig
 
 	public override void OnAllPluginsLoaded(bool hotReload)
 	{
-		try
-		{
-			MenuApi = MenuCapability.Get();
+		AddCommand("wsx", "", OnCommandRefresh);
+		// try
+		// {
+		// 	MenuApi = MenuCapability.Get();
 			
-			if (Config.Additional.KnifeEnabled)
-				SetupKnifeMenu();
-			if (Config.Additional.SkinEnabled)
-				SetupSkinsMenu();
-			if (Config.Additional.GloveEnabled)
-				SetupGlovesMenu();
-			if (Config.Additional.AgentEnabled)
-				SetupAgentsMenu();
-			if (Config.Additional.MusicEnabled)
-				SetupMusicMenu();
-			if (Config.Additional.PinsEnabled)
-				SetupPinsMenu();
+		// 	if (Config.Additional.KnifeEnabled)
+		// 		SetupKnifeMenu();
+		// 	if (Config.Additional.SkinEnabled)
+		// 		SetupSkinsMenu();
+		// 	if (Config.Additional.GloveEnabled)
+		// 		SetupGlovesMenu();
+		// 	if (Config.Additional.AgentEnabled)
+		// 		SetupAgentsMenu();
+		// 	if (Config.Additional.MusicEnabled)
+		// 		SetupMusicMenu();
+		// 	if (Config.Additional.PinsEnabled)
+		// 		SetupPinsMenu();
 		
-			RegisterCommands();
-		}
-		catch (Exception)
-		{
-			MenuApi = null;
-			Logger.LogError("Error while loading required plugins");
-			throw;
-		}
+		// 	RegisterCommands();
+		// }
+		// catch (Exception)
+		// {
+		// 	MenuApi = null;
+		// 	Logger.LogError("Error while loading required plugins");
+		// 	throw;
+		// }
 	}
 }
