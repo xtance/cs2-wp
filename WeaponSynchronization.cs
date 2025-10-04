@@ -84,11 +84,21 @@ internal class WeaponSynchronization
 		try
 		{
 			if (!_config.Additional.GloveEnabled || player?.SteamId == null)
+			{
+				Console.WriteLine($"{player?.Name} glove 0");
 				return;
+			}
 
-			if (row.weapon_defindex_glove == null) return;
+			if (row.weapon_defindex_glove == null) 
+			{
+				Console.WriteLine($"{player?.Name} glove 1");
+				return;
+			}
 
 			var playerGloves = WeaponPaints.GPlayersGlove.GetOrAdd(player.Slot, _ => new ConcurrentDictionary<CsTeam, ushort>());
+
+			Console.WriteLine($"{player?.Name} glove 2 ({(ushort)row.weapon_defindex_glove})");
+			
 
 			// Assign glove ID to both teams if weaponTeam is None
 			playerGloves[CsTeam.Terrorist] = (ushort)row.weapon_defindex_glove;
@@ -97,6 +107,7 @@ internal class WeaponSynchronization
 		catch (Exception ex)
 		{
 			Utility.Log($"An error occurred in GetGlovesFromDatabase: {ex.Message}");
+			Console.WriteLine($"{player?.Name} glove fuck");
 		}
 	}
 
@@ -142,7 +153,7 @@ internal class WeaponSynchronization
 				_ => new ConcurrentDictionary<CsTeam, ConcurrentDictionary<int, WeaponInfo>>());
 
 			// var weaponInfos = new ConcurrentDictionary<int, WeaponInfo>();
-
+			
 			foreach (var row in response.playerSkins)
 			{
 				int weaponDefIndex = row.weapon_defindex ?? 0;
