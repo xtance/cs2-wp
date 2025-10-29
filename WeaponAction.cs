@@ -55,7 +55,7 @@ namespace WeaponPaints
 			
 			List<JObject> skinInfo;
 			bool isLegacyModel;
-
+//_config.Additional.GiveRandomSkin = true;
 			if (_config.Additional.GiveRandomSkin &&
 			    !HasChangedPaint(player, weaponDefIndex, out _))
 			{
