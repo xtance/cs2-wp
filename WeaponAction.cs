@@ -16,6 +16,16 @@ namespace WeaponPaints
 		{
 			if (!Config.Additional.SkinEnabled) return;
 			if (!GPlayerWeaponsInfo.TryGetValue(player.Slot, out _)) return;
+
+			if (!string.IsNullOrEmpty(weapon.PrivateVScripts))
+			{
+				weapon.AttributeManager.Item.AccountID = (uint)player.SteamID;
+				// player.PrintToChat($"[{weapon.PrivateVScripts}]");
+				weapon.AttributeManager.Item.CustomName = "";
+				CAttributeListSetOrAddAttributeValueByName.Invoke(weapon.AttributeManager.Item.NetworkedDynamicAttributes.Handle,
+				"keychain slot 0 id", ViewAsFloat(0));
+				return;
+			}
 			
 			bool isKnife = weapon.DesignerName.Contains("knife") || weapon.DesignerName.Contains("bayonet");
 			
