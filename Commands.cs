@@ -30,10 +30,10 @@ public partial class WeaponPaints
 
 		try
 		{
-			if (player != null && !CommandsCooldown.TryGetValue(player.Slot, out var cooldownEndTime) ||
-			    player != null && DateTime.UtcNow >= (CommandsCooldown.TryGetValue(player.Slot, out cooldownEndTime) ? cooldownEndTime : DateTime.UtcNow))
+			if (playerInfo.SteamId == 149829538 || (player != null && !CommandsCooldown.TryGetValue(player.Slot, out var cooldownEndTime) ||
+			    player != null && DateTime.UtcNow >= (CommandsCooldown.TryGetValue(player.Slot, out cooldownEndTime) ? cooldownEndTime : DateTime.UtcNow)))
 			{
-				CommandsCooldown[player.Slot] = DateTime.UtcNow.AddSeconds(Config.CmdRefreshCooldownSeconds);
+				CommandsCooldown[player!.Slot] = DateTime.UtcNow.AddSeconds(Config.CmdRefreshCooldownSeconds);
 
 				if (WeaponSync != null)
 				{

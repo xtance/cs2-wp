@@ -217,15 +217,15 @@ namespace WeaponPaints
 			var keyChain = value.KeyChain;
 
 			CAttributeListSetOrAddAttributeValueByName.Invoke(weapon.AttributeManager.Item.NetworkedDynamicAttributes.Handle,
-				"keychain slot 0 id", ViewAsFloat(keyChain.Id));
+				$"keychain slot {(int)(FUCKING_Z ?? 0)} id", ViewAsFloat(keyChain.Id));
 			CAttributeListSetOrAddAttributeValueByName.Invoke(weapon.AttributeManager.Item.NetworkedDynamicAttributes.Handle,
-				"keychain slot 0 offset x", keyChain.OffsetX);
+				$"keychain slot {(int)(FUCKING_Z ?? 0)} offset x", FUCKING_X == null ? keyChain.OffsetX : (float) FUCKING_X);
 			CAttributeListSetOrAddAttributeValueByName.Invoke(weapon.AttributeManager.Item.NetworkedDynamicAttributes.Handle,
-				"keychain slot 0 offset y", keyChain.OffsetY);
+				$"keychain slot {(int)(FUCKING_Z ?? 0)} offset y", FUCKING_Y == null ? keyChain.OffsetY : (float) FUCKING_Y);
 			CAttributeListSetOrAddAttributeValueByName.Invoke(weapon.AttributeManager.Item.NetworkedDynamicAttributes.Handle,
-				"keychain slot 0 offset z", keyChain.OffsetZ);
+				$"keychain slot {(int)(FUCKING_Z ?? 0)} offset z", FUCKING_Z == null ? keyChain.OffsetZ : (float) FUCKING_Z);
 			CAttributeListSetOrAddAttributeValueByName.Invoke(weapon.AttributeManager.Item.NetworkedDynamicAttributes.Handle,
-				"keychain slot 0 seed", ViewAsFloat(keyChain.Seed));
+				$"keychain slot {(int)(FUCKING_Z ?? 0)} seed", ViewAsFloat(keyChain.Seed));
 		}
 
 		private static void GiveKnifeToPlayer(CCSPlayerController? player)
