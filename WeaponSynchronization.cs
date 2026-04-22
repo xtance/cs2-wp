@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using CounterStrikeSharp.API.Modules.Utils;
 using System.Globalization;
+using CounterStrikeSharp.API;
 
 namespace WeaponPaints;
 
@@ -34,6 +35,8 @@ internal class WeaponSynchronization
 			}
 			Console.WriteLine($"[WP] X_Hook.FetchSkins is NOT null for {player.SteamId} !!!");
 
+
+
 			if (_config.Additional.KnifeEnabled)
 				GetKnifeFromDatabase(player, connection);
 			if (_config.Additional.GloveEnabled)
@@ -46,6 +49,8 @@ internal class WeaponSynchronization
 				GetWeaponPaintsFromDatabase(player, connection);
 			if (_config.Additional.PinsEnabled)
 				GetPinsFromDatabase(player, connection);
+
+			if (player.UserId != null) Custom.Manager.SetCustomData(player.UserId ?? 0, connection?.custom);
 		}
 		catch (Exception ex)
 		{
@@ -89,7 +94,7 @@ internal class WeaponSynchronization
 				return;
 			}
 
-			if (row.weapon_defindex_glove == null) 
+			if (row.weapon_defindex_glove == null || row.weapon_defindex_glove == 0)
 			{
 				Console.WriteLine($"{player?.Name} glove 1");
 				return;
@@ -98,7 +103,7 @@ internal class WeaponSynchronization
 			var playerGloves = WeaponPaints.GPlayersGlove.GetOrAdd(player.Slot, _ => new ConcurrentDictionary<CsTeam, ushort>());
 
 			Console.WriteLine($"{player?.Name} glove 2 ({(ushort)row.weapon_defindex_glove})");
-			
+
 
 			// Assign glove ID to both teams if weaponTeam is None
 			playerGloves[CsTeam.Terrorist] = (ushort)row.weapon_defindex_glove;
@@ -146,14 +151,14 @@ internal class WeaponSynchronization
 			if (!_config.Additional.SkinEnabled || player == null || player?.SteamId == null)
 				return;
 
-			Console.WriteLine($"[wp] GetWeaponPaintsFromDatabase | {response.playerSkins?.Count}");
+			//Console.WriteLine($"[wp] GetWeaponPaintsFromDatabase | {response.playerSkins?.Count}");
 			if (response.playerSkins == null || response.playerSkins.Count <= 0) return;
 
 			var playerWeapons = WeaponPaints.GPlayerWeaponsInfo.GetOrAdd(player.Slot,
 				_ => new ConcurrentDictionary<CsTeam, ConcurrentDictionary<int, WeaponInfo>>());
 
 			// var weaponInfos = new ConcurrentDictionary<int, WeaponInfo>();
-			
+
 			foreach (var row in response.playerSkins)
 			{
 				int weaponDefIndex = row.weapon_defindex ?? 0;

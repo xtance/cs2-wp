@@ -73,6 +73,7 @@ public partial class WeaponPaints : BasePlugin, IPluginConfig<WeaponPaintsConfig
 		Utility.LoadPinsFromFile(ModuleDirectory + $"/data/collectibles_{_config.SkinsLanguage}.json", Logger);
 
 		RegisterListeners();
+		Custom.Manager.Initialize(this);// IMPORTANT! this adds paths to precache
 	}
 
 	public void OnConfigParsed(WeaponPaintsConfig config)
