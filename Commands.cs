@@ -208,7 +208,7 @@ public partial class WeaponPaints
 					UserId = targetPlayer.UserId,
 					Slot = targetPlayer.Slot,
 					Index = (int)targetPlayer.Index,
-					SteamId = targetPlayer.SteamID.ToString(),
+					SteamId = targetPlayer.AuthorizedSteamID?.SteamId32,
 					Name = targetPlayer.PlayerName,
 					IpAddress = targetPlayer.IpAddress?.Split(":")[0]
 				};

@@ -192,7 +192,7 @@ namespace Storage
     public static bool IsValid([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] CCSPlayerController? player)
     {
       if (player is null) return false;
-      if (!player.IsValid || player.Connected != PlayerConnectedState.PlayerConnected || player.IsBot || player.IsHLTV || player.UserId == 65535) return false;
+      if (!player.IsValid || player.Connected != PlayerConnectedState.Connected || player.IsBot || player.IsHLTV || player.UserId == 65535) return false;
       // no check for uid
       return true;
     }
